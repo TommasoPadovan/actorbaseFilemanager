@@ -1,45 +1,52 @@
-import java.io.RandomAccessFile
+import java.io.{FileOutputStream, ObjectOutputStream, RandomAccessFile}
 import java.nio.ByteBuffer
 import java.nio.channels.FileChannel
 import java.nio.file.{Path, StandardOpenOption, OpenOption}
+import java.util.concurrent.ConcurrentHashMap
 
 /**
   * Created by kurt on 05/06/2016.
   */
 object provaMaggica extends App{
   override def main(args: Array[String]) {
-    val raf = new RandomAccessFile("d:\\data\\file.acb","rw")
-    val init: Long = 4
-    val offset: Long = 6
-
-    val before = System.currentTimeMillis
-
-    defragment(raf,init,offset)
-
-    val after = System.currentTimeMillis
-
-    println(after-before)
-
 
     /*
-    val buffer = new Array[Byte] (len-10)
-    raf.read(buffer,0,len)
-    raf.write(buffer)
+      * val raf = new RandomAccessFile(s"d:\\data\\file1.acb","rw")
+      * val init: Long = 4
+      * val offset: Long = 6
+
+      * val before = System.currentTimeMillis
+      * defragment(raf,init,offset)
+      * val after = System.currentTimeMillis
+      * println(after-before)
+      */
+
+    /*val keyMap = new ConcurrentHashMap[String, Bounds]
+    val ostream = new ObjectOutputStream(new FileOutputStream("d:\\data\\map.acb"))
+    ostream.writeObject(keyMap)
+    ostream.close()*/
+
+    val map = new ConcurrentHashMap[String, Array[Byte]]
+    map.put("dio","can".getBytes)
+    println(new String(map.get("dio")))
 
 
+    val fileMngr = new SingleFileManager("d:\\data\\map.acb","d:\\data\\value.acb")
+    /*fileMngr.InsertEntry("ano","pene".getBytes)
+    fileMngr.InsertEntry("candedio","bastardo".getBytes)
+    fileMngr.InsertEntry("ladroschifoso","can".getBytes)
+    fileMngr.InsertEntry("candelporco","dedioedetomare".getBytes)
+    fileMngr.InsertEntry("zigzagun","op".getBytes)
+    fileMngr.InsertEntry("askdjaskdj","DIOLAZZARIONE".getBytes)*/
+    //fileMngr.UpdateEntry("askdjaskdj","CANAGLIAGESUCRISTO".getBytes)
 
-    val pointer = raf.getFilePointer
-    printlnBene(pointer)*/
+
+    val porcodio = fileMngr.ReadMap()
+    println (new String(porcodio.get("candedio")))
 
   }
 
 
-  private def printlnBene (l : Long) = {
-    if (l==2) println("do")
-    else {
-      println(l)
-    }
-  }
 
   def defragment(file: RandomAccessFile, init: Long, off: Long): Unit ={
     var remain: Long = file.length()-(init+off)

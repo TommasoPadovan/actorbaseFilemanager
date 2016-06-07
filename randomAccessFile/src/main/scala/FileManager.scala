@@ -1,4 +1,5 @@
 import java.util
+import java.util.concurrent.ConcurrentHashMap
 
 /**
   * Created by matteobortolazzo on 09/05/2016.
@@ -44,5 +45,5 @@ trait FileManager {
     *
     * @return The map to read.
     */
-  def ReadMap() :  util.HashMap[String, Array[Byte]]
+  def ReadMap() :  ConcurrentHashMap[String, Array[Byte]]
 }

@@ -4,6 +4,13 @@ import java.io.RandomAccessFile
   * Created by kurt on 06/06/2016.
   */
 class SpoolerRemove extends RemoveStrategy {
+
+  /**
+    * 
+    * @param file
+    * @param init
+    * @param off
+    */
   override def remove(file: RandomAccessFile, init: Long, off: Long): Unit = {
     var remain: Long = file.length-(init+off)
     val byteLength = 8192
